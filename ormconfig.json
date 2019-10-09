@@ -1,0 +1,10 @@
+{
+    "type": "mysql",
+    "host": "139.59.229.185",
+    "port": 14045,
+    "username": "paper_db_stg_to_world",
+    "password": "mgByWGvVDk=VyqeSN3yewh*H5a+47+",
+    "database": "paper_gateway",
+    "entities": ["src/**/**.entity{.ts,.js}"],
+    "synchronize": true
+  }
