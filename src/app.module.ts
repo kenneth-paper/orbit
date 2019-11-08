@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
+import { DatabaseModule } from 'environment/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), ApplicationStatusModule],
+  imports: [DatabaseModule, ApplicationStatusModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }
