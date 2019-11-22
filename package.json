@@ -11,6 +11,7 @@
     "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/src/main.js\"",
     "start:debug": "tsc-watch -p tsconfig.build.json --onSuccess \"node --inspect-brk dist/src/main.js\"",
     "start:prod": "node dist/src/main.js",
+    "prestart:prod": "rimraf dist && npm run build",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
     "test:watch": "jest --watch",
