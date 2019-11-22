@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn } from "typeorm";
 
-@Entity()
+@Entity('application_status')
 export class ApplicationStatus {
     @PrimaryColumn()
     // @Column({ length: 255 })
