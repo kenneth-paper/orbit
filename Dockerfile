@@ -9,7 +9,7 @@ RUN cd /home/app
 
 #arg
 ARG APP_ENV
-ENV NODE_ENV=APP_ENV
+ENV NODE_ENV=$APP_ENV
 #remove node modules
 RUN rm -f package-lock.json
 RUN rm -rf node_modules
