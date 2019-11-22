@@ -1,7 +1,7 @@
 module.exports = {
   apps : [{
     name: 'application-status',
-    script: 'src/main.ts',
+    script: 'dist/src/main.js',
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: 'one two',
