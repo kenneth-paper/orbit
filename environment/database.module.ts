@@ -16,7 +16,7 @@ function DatabaseOrmModule(): DynamicModule {
       username: config.DB_USERNAME,
       password: config.DB_PASSWORD,
       database: config.DB_DATABASE,
-      entities: ["src/**/**.entity{.ts,.js}"],
+      entities: [__dirname + "/../src/**/**.entity{.ts,.js}"],
       synchronize: false
     })
   })
