@@ -23,4 +23,4 @@ RUN NODE_ENV=$APP_ENV npm run build
 #expose files
 EXPOSE 3000
 
-CMD [ "pm2-runtime","dist/main.js"]
+CMD [ "pm2-runtime","dist/src/main.js"]
