@@ -1,5 +1,4 @@
-FROM node:8.16-alpine
-RUN apk update && apk add bash && apk add mysql-client
+FROM node:10.17.0-jessie
 
 #getting code to container
 RUN mkdir /home/app
@@ -8,10 +7,20 @@ ADD . /home/app
 WORKDIR /home/app
 RUN cd /home/app
 
+#arg
+ARG APP_ENV
+#remove node modules
+RUN rm -f package-lock.json
+RUN rm -rf node_modules
+
 #install package
 RUN npm config set unsafe-perm true
+RUN npm install -g --unsafe-perm --allow-root
+RUN npm install --unsafe-perm --allow-root
+RUN npm install -g pm2
 
+RUN NODE_ENV='$APP_ENV' npm run build
 #expose files
 EXPOSE 3000
 
-CMD [ "npm" , "run", "start", "NODE_ENV=development" ]
+CMD [ "pm2-runtime","dist/src/main.js"]
