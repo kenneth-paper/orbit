@@ -19,7 +19,7 @@ RUN npm install -g --unsafe-perm --allow-root
 RUN npm install --unsafe-perm --allow-root
 RUN npm install -g pm2
 
-RUN NODE_ENV=$APP_ENV npm run build
+RUN NODE_ENV='$APP_ENV' npm run build
 #expose files
 EXPOSE 3000
 
