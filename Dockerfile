@@ -9,6 +9,7 @@ RUN cd /home/app
 
 #arg
 ARG APP_ENV
+ENV NODE_ENV=$APP_ENV
 #remove node modules
 RUN rm -f package-lock.json
 RUN rm -rf node_modules
@@ -19,7 +20,7 @@ RUN npm install -g --unsafe-perm --allow-root
 RUN npm install --unsafe-perm --allow-root
 RUN npm install -g pm2
 
-RUN NODE_ENV='$APP_ENV' npm run build
+RUN npm run build
 #expose files
 EXPOSE 3000
 
