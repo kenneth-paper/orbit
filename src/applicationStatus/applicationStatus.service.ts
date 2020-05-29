@@ -24,12 +24,12 @@ export class ApplicationStatusService {
         return await this.applicationStatusRepository.count();
     }
 
-    async getPayperApplicationStatus(): Promise<ApplicationStatus> {
+    async getPayperApplicationStatus(): Promise<ApplicationStatusPayper> {
         return await this.applicationStatusPayperRepository.findOne();
     }
 
-    async updatePayperApplicationStatus(applicationStatus: ApplicationStatus): Promise<number> {
-        this.applicationStatusRepository.save(applicationStatus);// tambahin catch
+    async updatePayperApplicationStatus(applicationStatus: ApplicationStatusPayper): Promise<number> {
+        this.applicationStatusPayperRepository.save(applicationStatus);// tambahin catch
         //use socket.io to send notification to connected client
         this.statusGateway.sendToAll('status');
         return await this.applicationStatusPayperRepository.count();

@@ -1,6 +1,7 @@
 import { Controller, Get, Put, Body } from "@nestjs/common";
 import { ApplicationStatusService } from "./applicationStatus.service";
 import { ApplicationStatus } from "./applicationStatus.entity";
+import { ApplicationStatusPayper } from "./applicationStatusPayper.entity";
 
 @Controller('application-status')
 export class ApplicationStatusController {
@@ -17,13 +18,13 @@ export class ApplicationStatusController {
         return this.service.updateApplicationStatus(applicationStatus);
     }
 
-    @Get()
+    @Get('payper')
     getPayperApplicationStatus() {
         return this.service.getPayperApplicationStatus();
     }
 
-    @Put()
-    updatePayperApplicationStatus(@Body() applicationStatus: ApplicationStatus){
+    @Put('payper')
+    updatePayperApplicationStatus(@Body() applicationStatus: ApplicationStatusPayper){
         return this.service.updatePayperApplicationStatus(applicationStatus);
     }
 }
