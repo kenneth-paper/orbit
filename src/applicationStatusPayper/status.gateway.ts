@@ -15,12 +15,14 @@ export class StatusGateway implements OnGatewayConnection {
   async handleConnection(client: any, ...args: any[]) {
     var result = await this.service.getApplicationStatus();
     if (!result.status){
-      this.sendToAll('status');
+      this.sendToAll('status',result);
     }
   }
 
-  sendToAll(msg: string){
+  sendToAll(msg: string, data){
     this.logger.log(`StatusGateway -> sendToAll ${msg}`);
-    this.wss.emit(msg);
+    this.logger.log(`StatusGateway -> sendToAll ${data}`);
+    console.log(data);
+    this.wss.emit(msg,data);
   }
 }

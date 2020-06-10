@@ -52,7 +52,8 @@
     "tsc-watch": "2.2.1",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typescript": "3.7.2"
+    "typescript": "3.7.2",
+    "socket.io-redis": "^5.2.0"
   },
   "devDependencies": {
     "@nestjs/platform-socket.io": "^6.7.2",

@@ -15,10 +15,10 @@ export class ApplicationStatusPayperService {
     return await this.applicationStatusPayperRepository.findOne();
   }
 
-  async updateApplicationStatus(applicationStatus: ApplicationStatusPayper): Promise<number> {
-    this.applicationStatusPayperRepository.save(applicationStatus);// tambahin catch
+  async updateApplicationStatus(applicationStatus: ApplicationStatusPayper): Promise<any> {
+    let result = await this.applicationStatusPayperRepository.save(applicationStatus);// tambahin catch
     //use socket.io to send notification to connected client
-    this.statusGateway.sendToAll('status');
-    return await this.applicationStatusPayperRepository.count();
+    this.statusGateway.sendToAll('status',result);
+    return result;
   }
 }
