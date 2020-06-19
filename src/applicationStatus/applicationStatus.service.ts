@@ -6,8 +6,10 @@ import { StatusGateway } from "./status.gateway";
 
 @Injectable()
 export class ApplicationStatusService {
-
-    constructor(@InjectRepository(ApplicationStatus) private applicationStatusRepository: Repository<ApplicationStatus>, @Inject(forwardRef(() => StatusGateway)) private statusGateway: StatusGateway) { }
+    constructor(
+        @InjectRepository(ApplicationStatus) private applicationStatusRepository: Repository<ApplicationStatus>,
+        @Inject(forwardRef(() => StatusGateway)) private statusGateway: StatusGateway
+        ) { }
 
     async getApplicationStatus(): Promise<ApplicationStatus> {
         return await this.applicationStatusRepository.findOne();
