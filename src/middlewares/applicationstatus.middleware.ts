@@ -11,10 +11,10 @@ export class ApplicationStatusMiddleware implements NestMiddleware {
   }
 
 	use(req: Request, res: Response, next: Function) {
-	  let password = req.header('password');
-		let currentPassword = this.env.read().API_HEADER_PASSWORD
+	  let auth = req.header('auth');
+		let currentAuth = this.env.read().API_HEADER_PASSWORD
 
-		if (password != currentPassword) {
+		if (auth != currentAuth) {
 			return res.status(401).json({ 'errors': { 'code': 401, 'message': 'Invalid Request' } });
 		}
 
