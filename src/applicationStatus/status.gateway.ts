@@ -26,7 +26,7 @@ export class StatusGateway implements OnGatewayInit,OnGatewayConnection,OnGatewa
   @SubscribeMessage("status")
   handleStatusMessage(payload: any) : void {
     this.logger.log('status gateway ' + payload)
-    this.server.emit("status")
+    this.server.emit("status",payload)
   }
 
   async handleDisconnect(client: any) {

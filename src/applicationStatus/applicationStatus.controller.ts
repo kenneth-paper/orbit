@@ -15,7 +15,7 @@ export class ApplicationStatusController {
 
     @Put()
     async updateApplicationStatus(@Res() res: Response,@Body() applicationStatus: ApplicationStatus) : Promise<any>{
-        let updatedStatus = await this.service.updateApplicationStatus(applicationStatus);
+        await this.service.updateApplicationStatus(applicationStatus);
         res.status(200).json(applicationStatus);
     }
 }
