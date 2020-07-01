@@ -14,6 +14,7 @@ export interface EnvData {
   DB_PASSWORD: string
 
   PORT: number
+  API_HEADER_PASSWORD : string
 }
 
 export class EnvService {
@@ -21,7 +22,7 @@ export class EnvService {
 
   constructor () {
     const environment = process.env.NODE_ENV || 'development'
-    const data: any = dotenv.parse(fs.readFileSync(`env.${environment}`))
+    const data: any = dotenv.parse(fs.readFileSync(`.env.${environment}`))
 
     data.APP_ENV = environment
     data.DB_PORT = parseInt(data.DB_PORT)

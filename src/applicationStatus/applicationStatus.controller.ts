@@ -1,6 +1,7 @@
-import { Controller, Get, Put, Body } from "@nestjs/common";
+import { Controller, Get, Put, Body, Res } from "@nestjs/common";
 import { ApplicationStatusService } from "./applicationStatus.service";
 import { ApplicationStatus } from "./applicationStatus.entity";
+import { Response } from 'express';
 
 @Controller('application-status')
 export class ApplicationStatusController {
@@ -13,7 +14,8 @@ export class ApplicationStatusController {
     }
 
     @Put()
-    updateApplicationStatus(@Body() applicationStatus: ApplicationStatus){
-        return this.service.updateApplicationStatus(applicationStatus);
+    async updateApplicationStatus(@Res() res: Response,@Body() applicationStatus: ApplicationStatus) : Promise<any>{
+        let updatedStatus = await this.service.updateApplicationStatus(applicationStatus);
+        res.status(200).json(applicationStatus);
     }
 }
