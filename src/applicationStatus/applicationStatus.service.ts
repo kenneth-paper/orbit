@@ -16,9 +16,8 @@ export class ApplicationStatusService {
     }
 
     async updateApplicationStatus(applicationStatus: ApplicationStatus): Promise<number> {
-        this.applicationStatusRepository.save(applicationStatus);// tambahin catch
-        //use socket.io to send notification to connected client
-        this.statusGateway.sendToAll('status');
+        this.applicationStatusRepository.save(applicationStatus);
+        this.statusGateway.handleStatusMessage("connected data " + applicationStatus);
         return await this.applicationStatusRepository.count();
     }
 }

@@ -10,9 +10,10 @@ async function bootstrap() {
     cert: fs.readFileSync(path.resolve('src/secrets/public-certificate.pem')),
   };
 
-  const app = await NestFactory.create(AppModule,{
+  const app = await NestFactory.create(AppModule, {
     httpsOptions,
   });
+
   app.enableCors();
   await app.listen(3000);
 }
