@@ -23,10 +23,10 @@ import {
     }
   
     // @UseGuards(InternalSocketGuard)
-    @SubscribeMessage('paymentStatus')
-    paymentStatus(client: Socket, payload: any): void {
+    @SubscribeMessage('qrisPaymentStatus')
+    qrisPaymentStatus(client: Socket, payload: any): void {
       console.log(payload.progress)
-      this.server.in(payload.room).emit('paymentStatus', payload);
+      this.server.in(payload.room).emit('qrisPaymentStatus', payload);
     }
    
     afterInit(server: Server) {
