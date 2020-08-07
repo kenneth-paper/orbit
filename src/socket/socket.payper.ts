@@ -25,7 +25,7 @@ import {
     // @UseGuards(InternalSocketGuard)
     @SubscribeMessage('qrisPaymentStatus')
     qrisPaymentStatus(client: Socket, payload: any): void {
-      console.log(payload.progress)
+      console.log(payload.room)
       this.server.in(payload.room).emit('qrisPaymentStatus', payload);
     }
    
