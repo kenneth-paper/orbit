@@ -26,7 +26,7 @@ import {
     @SubscribeMessage('qrisPaymentStatus')
     qrisPaymentStatus(client: Socket, payload: any): void {
       console.log(payload.room)
-      console.log("payload", payload.room)
+      console.log("payload", payload)
       this.server.in(payload.room).emit('qrisPaymentStatus', payload);
     }
    
