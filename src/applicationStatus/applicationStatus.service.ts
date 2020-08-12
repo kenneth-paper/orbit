@@ -17,7 +17,7 @@ export class ApplicationStatusService {
 
     async updateApplicationStatus(applicationStatus: ApplicationStatus): Promise<number> {
         this.applicationStatusRepository.save(applicationStatus);
-        this.statusGateway.handleStatusMessage("connected data " + applicationStatus);
+        this.statusGateway.handleStatusMessage(applicationStatus);
         return await this.applicationStatusRepository.count();
     }
 }
