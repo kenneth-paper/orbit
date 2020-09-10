@@ -7,7 +7,7 @@ export class SyncGatewayController {
 
     constructor(private service: SyncGatewayService) { }
 
-    @Post()
+    @Post("/status")
     async sendSyncStatus(@Res() res: Response,@Body() req: any) : Promise<any>{
         var result = await this.service.pushSyncStatus(req);
         if (result){

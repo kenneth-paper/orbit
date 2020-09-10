@@ -17,27 +17,28 @@ import {
    
     // @UseGuards(SocketGuard)
     @SubscribeMessage('join')
-    joinRoom(client: Socket, room: string) {
-      client.join(room);
-      return room;
+    joinRoom(client: Socket, payload: any) {
+      console.log(payload.room)
+      client.join(String(payload.room));
+      return payload;
     }
   
     // @UseGuards(InternalSocketGuard)
-    @SubscribeMessage('sync-status')
+    @SubscribeMessage('syncStatus')
     syncStatus(client: Socket, payload: any): void {
-      console.log(payload)
-      this.server.in(payload.room).emit('sync-status', payload.data);
+      this.server.to(payload.room).emit('syncStatus', payload.data);
     }
    
     afterInit(server: Server) {
   
     }
 
-    async handlePushStatus(payload: any): Promise<boolean>{
-      console.log(payload)
-      let res= this.server.in(payload.room).emit('sync-status', payload.data);
+    pushStatus(payload: any): boolean{
+      var res= this.server.to(payload.room).emit('sync-status', { "event_type": payload.event_type,"data":payload.data});
       return res
     }
+
+    
    
     handleDisconnect(client: Socket) {
      this.logger.log(`Client sync-gateway disconnected: ${client.id}`);

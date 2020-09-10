@@ -7,6 +7,6 @@ export class SyncGatewayService {
     constructor( @Inject(forwardRef(() => SocketSyncGateway)) private syncGateway: SocketSyncGateway) { }
 
     async pushSyncStatus(data: any): Promise<any> {
-        return await this.syncGateway.handlePushStatus(data);
+        return this.syncGateway.pushStatus(data);
     }
 }
