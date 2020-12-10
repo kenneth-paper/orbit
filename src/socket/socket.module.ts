@@ -9,12 +9,13 @@ import { SocketPayper } from './socket.payper';
       ],
       providers: [
         SocketGateway,
-        SocketPayper
+        SocketPayper,
+        SocketPaperChain,
       ],
       exports: [
         SocketGateway,
         SocketPayper,
-        SocketPaperChain
+        SocketPaperChain,
       ],
       controllers: [],
 })
