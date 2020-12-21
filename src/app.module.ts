@@ -5,12 +5,15 @@ import { DatabaseModule } from '../environment/database.module';
 import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middleware';
 import { SocketModule } from './socket/socket.module';
 import { logger } from './middlewares/logger.middleware';
+import { SocketImportModule } from './socket-import/socket-import.module';
+
 
 @Module({
   imports: [
     DatabaseModule, 
     ApplicationStatusModule,
     SocketModule,
+    SocketImportModule,
     HttpModule,
     ApplicationStatusPayperModule,
   ],
