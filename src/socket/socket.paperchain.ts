@@ -9,11 +9,11 @@ import {
   import { Logger } from '@nestjs/common';
   import { Socket, Server } from 'socket.io';
   
-   @WebSocketGateway({namespace: "/socket/payper"})
-   export class SocketPayper implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+   @WebSocketGateway({namespace: "/socket/paperchain"})
+   export class SocketPaperChain implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
    
     @WebSocketServer() server: Server;
-    private logger: Logger = new Logger('AppSocketPayper');
+    private logger: Logger = new Logger('AppSocketPaperChain');
    
     // @UseGuards(SocketGuard)
     @SubscribeMessage('join')
@@ -23,11 +23,11 @@ import {
     }
   
     // @UseGuards(InternalSocketGuard)
-    @SubscribeMessage('paymentStatus')
+    @SubscribeMessage('paperchain-events')
     qrisPaymentStatus(client: Socket, payload: any): void {
       console.log(payload.room)
       console.log("payload", payload)
-      this.server.in(payload.room).emit('paymentStatus', payload);
+      this.server.in(payload.room).emit('paperchain-events', payload);
     }
    
     afterInit(server: Server) {

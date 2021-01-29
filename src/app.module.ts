@@ -5,6 +5,8 @@ import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middl
 import { SocketModule } from './socket/socket.module';
 import { logger } from './middlewares/logger.middleware';
 import { SyncGatewayModule } from './syncGateway/syncGateway.module';
+import { SocketImportModule } from './socket-import/socket-import.module';
+
 
 @Module({
   imports: [
@@ -12,6 +14,7 @@ import { SyncGatewayModule } from './syncGateway/syncGateway.module';
     ApplicationStatusModule,
     SyncGatewayModule,
     SocketModule,
+    SocketImportModule,
     HttpModule,
   ],
   controllers: [],

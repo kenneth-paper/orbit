@@ -1,5 +1,6 @@
 import { Module, HttpModule } from '@nestjs/common';
 import { SocketGateway } from './socket.gateway';
+import { SocketPaperChain } from './socket.paperchain';
 import { SocketPayper } from './socket.payper';
 import { SocketSyncGateway } from '../syncGateway/socket.sync-gateway';
 
@@ -9,11 +10,13 @@ import { SocketSyncGateway } from '../syncGateway/socket.sync-gateway';
       ],
       providers: [
         SocketGateway,
-        SocketPayper
+        SocketPayper,
+        SocketPaperChain,
       ],
       exports: [
         SocketGateway,
-        SocketPayper
+        SocketPayper,
+        SocketPaperChain,
       ],
       controllers: [],
 })
