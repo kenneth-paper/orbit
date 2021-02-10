@@ -33,12 +33,11 @@ import { Socket, Server } from 'socket.io';
 
   }
 
+  @SubscribeMessage('push-notification')
   pushNotification(payload: any): boolean{
     var res= this.server.to(payload.room).emit('push-notification', { "event_type": payload.event_type,"data":payload.data});
     return res
   }
-
-  
  
   handleDisconnect(client: Socket) {
    this.logger.log(`Client push-notification disconnected: ${client.id}`);
