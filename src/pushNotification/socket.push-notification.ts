@@ -18,8 +18,8 @@ import { Socket, Server } from 'socket.io';
   // @UseGuards(SocketGuard)
   @SubscribeMessage('join')
   joinRoom(client: Socket, payload: any) {
-    console.log(payload.room)
-    client.join(String(payload.room));
+    console.log(payload)
+    client.join(String(payload));
     return payload;
   }
 
@@ -33,9 +33,9 @@ import { Socket, Server } from 'socket.io';
 
   }
 
-  @SubscribeMessage('push-notification')
   pushNotification(payload: any): boolean{
-    var res= this.server.to(payload.room).emit('push-notification', { "event_type": payload.event_type,"data":payload.data});
+    console.log(payload.room)
+    var res= this.server.in(payload.room).emit('push-notification', { "event_type": payload.event_type,"data":payload.data});
     return res
   }
  
