@@ -7,7 +7,7 @@ export class PushNotificationController {
 
     constructor(private service: PushNotificationService) { }
 
-    @Post("/push-notification")
+    @Post("/status")
     async sendPushNotification(@Res() res: Response,@Body() req: any) : Promise<any>{
         var result = await this.service.sendPushNotification(req);
         if (result){
