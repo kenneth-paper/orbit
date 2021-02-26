@@ -16,6 +16,7 @@ export interface EnvData {
   PORT: number
   API_HEADER_PASSWORD : string
 
+  APP_URL:string
 
   REDIS_HOST: string
   REDIS_PORT: number
