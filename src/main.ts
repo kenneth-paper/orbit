@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { RedisIoAdapter } from './pushNotification/redis-io.adapter';
 const path = require('path');
 import 'dotenv/config';
 import * as fs from 'fs';
@@ -13,6 +14,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
    httpsOptions,
   });
+
+  app.useWebSocketAdapter(new RedisIoAdapter(app));
 
   app.enableCors();
   await app.listen(3000);
