@@ -1,5 +1,6 @@
 import { Module,MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
+import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { DatabaseModule } from '../environment/database.module';
 import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middleware';
 import { SocketModule } from './socket/socket.module';
@@ -20,6 +21,7 @@ import { SocketHttpModule } from './socket-http/socket-http.module';
     PushNotificationModule,
     HttpModule,
     SocketHttpModule,
+    ApplicationStatusPayperModule,
   ],
   controllers: [],
   providers: [],
