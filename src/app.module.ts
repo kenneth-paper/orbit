@@ -8,6 +8,7 @@ import { logger } from './middlewares/logger.middleware';
 import { SyncGatewayModule } from './syncGateway/syncGateway.module';
 import { SocketImportModule } from './socket-import/socket-import.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
+import { SocketHttpModule } from './socket-http/socket-http.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { PushNotificationModule } from './pushNotification/pushNotification.modu
     SocketImportModule,
     PushNotificationModule,
     HttpModule,
+    SocketHttpModule,
     ApplicationStatusPayperModule,
   ],
   controllers: [],
@@ -31,6 +33,6 @@ export class AppModule {
       .apply(ApplicationStatusMiddleware)
       .forRoutes('application-status','sync-gateway','push-notification')
       .apply(logger)
-      .forRoutes('socket');
+      .forRoutes('socket', 'socket-http');
   }
 }
