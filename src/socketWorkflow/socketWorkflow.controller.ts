@@ -2,7 +2,7 @@ import { Controller, Get, Put, Body, Res, Post, HttpStatus } from "@nestjs/commo
 import { SocketWorkflowService } from "./socketWorkflow.service";
 import { Response } from 'express';
 
-@Controller('push-notification')
+@Controller('push-workflow')
 export class SocketWorkflowController {
 
     constructor(private service: SocketWorkflowService) { }
