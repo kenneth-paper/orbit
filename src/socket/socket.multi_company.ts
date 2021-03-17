@@ -23,7 +23,7 @@ export class SocketMulti_company implements OnGatewayInit, OnGatewayConnection, 
   }
 
   // @UseGuards(InternalSocketGuard)
-  @SubscribeMessage('seedingStatus')
+  @SubscribeMessage('seeding_status')
   qrisPaymentStatus(client: Socket, payload: any): void {
     console.log(payload.room)
     console.log("payload", payload)
