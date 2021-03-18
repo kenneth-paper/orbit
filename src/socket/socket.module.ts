@@ -3,7 +3,7 @@ import { SocketGateway } from './socket.gateway';
 import { SocketPaperChain } from './socket.paperchain';
 import { SocketPayper } from './socket.payper';
 import { SocketSyncGateway } from '../syncGateway/socket.sync-gateway';
-import { SocketMulti_company } from './socket.multi_company';
+import { SocketMultiCompany } from './socket.multicompany';
 
 @Module({
     imports: [
@@ -13,13 +13,13 @@ import { SocketMulti_company } from './socket.multi_company';
         SocketGateway,
         SocketPayper,
         SocketPaperChain,
-        SocketMulti_company,
+        SocketMultiCompany,
       ],
       exports: [
         SocketGateway,
         SocketPayper,
         SocketPaperChain,
-        SocketMulti_company,
+        SocketMultiCompany,
       ],
       controllers: [],
 })

@@ -10,7 +10,7 @@ import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 
 @WebSocketGateway({namespace: "/socket/multicompany"})
-export class SocketMulti_company implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+export class SocketMultiCompany implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('AppSocketMultiCompany');
