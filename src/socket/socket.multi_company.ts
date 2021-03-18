@@ -27,7 +27,7 @@ export class SocketMulti_company implements OnGatewayInit, OnGatewayConnection, 
   qrisPaymentStatus(client: Socket, payload: any): void {
     console.log(payload.room)
     console.log("payload", payload)
-    this.server.in(payload.room).emit('seedingStatus', payload);
+    this.server.in(payload.room).emit('seeding_status', payload);
   }
 
   afterInit(server: Server) {
