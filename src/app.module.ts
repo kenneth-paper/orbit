@@ -9,6 +9,7 @@ import { SyncGatewayModule } from './syncGateway/syncGateway.module';
 import { SocketImportModule } from './socket-import/socket-import.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
 import { SocketHttpModule } from './socket-http/socket-http.module';
+import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { SocketHttpModule } from './socket-http/socket-http.module';
     PushNotificationModule,
     HttpModule,
     SocketHttpModule,
+    SocketWorkflowModule,
     ApplicationStatusSAPModule,
   ],
   controllers: [],
@@ -31,7 +33,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(ApplicationStatusMiddleware)
-      .forRoutes('application-status','sync-gateway','push-notification','application-status-sap')
+      .forRoutes('application-status','sync-gateway','push-notification','application-status-sap','push-workflow')
       .apply(logger)
       .forRoutes('socket', 'socket-http');
   }
