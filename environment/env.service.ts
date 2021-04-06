@@ -14,9 +14,9 @@ export interface EnvData {
   DB_PASSWORD: string
 
   PORT: number
-  API_HEADER_PASSWORD : string
+  API_HEADER_PASSWORD: string
 
-  APP_URL:string
+  APP_URL: string
 
   REDIS_HOST: string
   REDIS_PORT: number
@@ -27,9 +27,9 @@ export interface EnvData {
 export class EnvService {
   private vars: EnvData
 
-  constructor () {
+  constructor() {
     const environment = process.env.NODE_ENV || 'development'
-    const data: any = dotenv.parse(fs.readFileSync(`.env.${environment}`))
+    const data: any = (environment != 'local') ? dotenv.parse(fs.readFileSync(`.env.${environment}`)) : dotenv.parse(fs.readFileSync(`.env`))
 
     data.APP_ENV = environment
     data.DB_PORT = parseInt(data.DB_PORT)
@@ -37,7 +37,7 @@ export class EnvService {
     this.vars = data as EnvData
   }
 
-  read (): EnvData {
+  read(): EnvData {
     return this.vars
   }
 
