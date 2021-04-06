@@ -5,6 +5,8 @@ ARG APP_ENV
 WORKDIR /home/app
 # Add files
 ADD . .
+# COPY .env files
+COPY .env.${APP_ENV} .env
 # Update, install package, remove module and unused file
 RUN apk update --no-cache && \
     apk add --no-cache bash && \
@@ -14,11 +16,11 @@ RUN apk update --no-cache && \
     rm -f package-lock.json && \
     rm -rf node_modules && \
     rm -rf Dockerfile \
-        dockerfile \
-        Dockerfile.bak \
-        dockerfile.bak \
-        Jenkinsfile \
-        id_rsa_private_jenkins 
+    dockerfile \
+    Dockerfile.bak \
+    dockerfile.bak \
+    Jenkinsfile \
+    id_rsa_private_jenkins 
 # Install package & run
 RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
