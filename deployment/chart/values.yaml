@@ -14,9 +14,9 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-env: {}
-#  - name: USE_SSL
-#    value: "false"
+env: 
+  - name: NODE_ENV
+    value: "local"
 
 ports:
   - containerPort: 3000
