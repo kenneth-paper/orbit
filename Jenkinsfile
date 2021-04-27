@@ -31,6 +31,11 @@ pipeline {
         skipDefaultCheckout()
     }
     stages {
+        stage('Init') {
+            steps {
+                slackSend( message: "${env.CONTAINER_NAME} >> ${env.BRANCH_NAME} ver. ${currentBuild.number} is building now! :pray:",color: '#4199d5')
+            }
+        }        
         stage('Pull Source Code') {
             steps {
                 sh "mkdir -p /var/jenkins_home/workspace/${env.JOB_NAME}"
@@ -84,16 +89,11 @@ pipeline {
                 }
             }
         }
-        // stage('Remove Unused Image') {
-        //  steps {
-        //      withCredentials([file(credentialsId: "${env.GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_KEY')]) {
-        //          sh("gcloud auth activate-service-account --key-file=${GC_KEY} --project=${env.GCP_PROJECT}")
-        //          sh "docker rmi -f ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH}:latest"
-        //          sh "docker rmi -f ${env.IMAGE_FULL_URL}"
-        //          sh "gcloud container images delete ${env.IMAGE_FULL_URL} --force-delete-tags --quiet"
-        //      }
-        //  }
-        // }
+        stage("Post Build"){
+            steps {
+                slackSend( message: "${env.CONTAINER_NAME} >> ${env.BRANCH_NAME} ver. ${currentBuild.number}, Build Finished! Congratulation! :dab_unicorn:", color:"#aae481")
+            }
+        }
     }
 }
 /*
