@@ -15,12 +15,17 @@ RUN apk update --no-cache && \
     npm cache clean --force && \
     rm -f package-lock.json && \
     rm -rf node_modules && \
+    # Remove unwanted files
     rm -rf Dockerfile \
     dockerfile \
     Dockerfile.bak \
     dockerfile.bak \
     Jenkinsfile \
-    id_rsa_private_jenkins 
+    id_rsa_private_jenkins \
+    .git \
+    .env.* \
+    deployment
+
 # Install package & run
 RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
