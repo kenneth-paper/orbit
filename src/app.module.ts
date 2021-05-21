@@ -1,6 +1,6 @@
 import { Module,MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
-import { ApplicationStatusSAPModule } from './applicationStatusSAP/applicationStatusSAP.module';
+import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { DatabaseModule } from '../environment/database.module';
 import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middleware';
 import { SocketModule } from './socket/socket.module';
@@ -23,7 +23,7 @@ import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
     HttpModule,
     SocketHttpModule,
     SocketWorkflowModule,
-    ApplicationStatusSAPModule,
+    ApplicationStatusPayperModule,
   ],
   controllers: [],
   providers: [],
@@ -33,7 +33,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(ApplicationStatusMiddleware)
-      .forRoutes('application-status','sync-gateway','push-notification','application-status-sap','push-workflow')
+      .forRoutes('application-status','sync-gateway','push-notification','push-workflow')
       .apply(logger)
       .forRoutes('socket', 'socket-http');
   }
