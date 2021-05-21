@@ -68,6 +68,16 @@ export class SocketImportGateway implements OnGatewayInit, OnGatewayConnection, 
     }
   }
 
+  @SubscribeMessage('upload_ocr')
+  uploadOCR(client: Socket, payload: any): void {
+    console.log('upload_ocr ' + payload.progress);
+    try {
+      client.to(payload.room).broadcast.emit('upload_ocr', payload);
+    } catch(err){
+      this.logger.log(err);
+    }
+  }
+
   afterInit(server: Server) {
 
   }
