@@ -24,7 +24,6 @@ RUN apk update --no-cache && \
     Jenkinsfile \
     id_rsa_private_jenkins \
     .git \
-#    .env.* \
     deployment
 # Install package & run
 RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
