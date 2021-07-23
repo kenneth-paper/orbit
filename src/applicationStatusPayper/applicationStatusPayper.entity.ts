@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryColumn } from "typeorm";
 
-@Entity('application_status_sap')
+@Entity('application_status_payper')
 export class ApplicationStatusPayper {
     @PrimaryColumn()
     // @Column({ length: 255 })
