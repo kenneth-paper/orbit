@@ -10,6 +10,8 @@ import { SocketImportModule } from './socket-import/socket-import.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
+import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
+
 
 
 @Module({
@@ -24,6 +26,7 @@ import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
     SocketHttpModule,
     SocketWorkflowModule,
     ApplicationStatusSAPModule,
+    ApplicationStatusPayperModule,
   ],
   controllers: [],
   providers: [],
