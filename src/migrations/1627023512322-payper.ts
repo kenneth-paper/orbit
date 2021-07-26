@@ -9,7 +9,7 @@ export class payper1627023512322 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        if (! await queryRunner.getTable('application_status_payper')){
+        if (await queryRunner.getTable('application_status_payper')){
             await queryRunner.query("DROP TABLE `application_status_payper`");
         }
     }
