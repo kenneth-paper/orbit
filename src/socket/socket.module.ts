@@ -4,6 +4,7 @@ import { SocketPaperChain } from './socket.paperchain';
 import { SocketPayper } from './socket.payper';
 import { SocketSyncGateway } from '../syncGateway/socket.sync-gateway';
 import { SocketMultiCompany } from './socket.multicompany';
+import { SocketPaperPlus } from './socket.paper-plus';
 
 @Module({
     imports: [
@@ -14,12 +15,14 @@ import { SocketMultiCompany } from './socket.multicompany';
         SocketPayper,
         SocketPaperChain,
         SocketMultiCompany,
+        SocketPaperPlus,
       ],
       exports: [
         SocketGateway,
         SocketPayper,
         SocketPaperChain,
         SocketMultiCompany,
+        SocketPaperPlus,
       ],
       controllers: [],
 })
