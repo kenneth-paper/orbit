@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1.0-experimental
 FROM node:10-alpine
 ARG APP_ENV
-ENV NODE_ENV ${APP_ENV}
 # Set workdir
 WORKDIR /home/app
 # Add files
@@ -24,7 +23,9 @@ RUN apk update --no-cache && \
     Jenkinsfile \
     id_rsa_private_jenkins \
     .git \
+    .env.* \
     deployment
+
 # Install package & run
 RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
@@ -34,4 +35,4 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
 # Expose
 EXPOSE 3000
 # Start application
-CMD pm2-runtime dist/src/main.js
+CMD ["pm2-runtime","dist/src/main.js"]
