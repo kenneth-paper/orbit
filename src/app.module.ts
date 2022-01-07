@@ -12,6 +12,7 @@ import { PushNotificationModule } from './pushNotification/pushNotification.modu
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
+import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gateway';
 
 
 
@@ -27,6 +28,7 @@ import { ApplicationStatusPayperModule } from './applicationStatusPayper/applica
     HttpModule,
     SocketHttpModule,
     SocketWorkflowModule,
+    SocketPayOutReport,
     ApplicationStatusSAPModule,
     ApplicationStatusPayperModule,
   ],
