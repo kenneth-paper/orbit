@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
+import 'dotenv/config';
+import * as fs from 'fs';
 import { AppModule } from './app.module';
 import { RedisIoAdapter } from './pushNotification/redis-io.adapter';
 const path = require('path');
-import 'dotenv/config';
-import * as fs from 'fs';
 
 async function bootstrap() {
   if (process.env.NODE_ENV == 'local') {

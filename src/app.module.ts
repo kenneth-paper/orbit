@@ -7,9 +7,11 @@ import { SocketModule } from './socket/socket.module';
 import { logger } from './middlewares/logger.middleware';
 import { SyncGatewayModule } from './syncGateway/syncGateway.module';
 import { SocketImportModule } from './socket-import/socket-import.module';
+import { SocketExportModule } from './socket-export/socket-export.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
+import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gateway';
 
 
 
@@ -20,10 +22,12 @@ import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
     SyncGatewayModule,
     SocketModule,
     SocketImportModule,
+    SocketExportModule,
     PushNotificationModule,
     HttpModule,
     SocketHttpModule,
     SocketWorkflowModule,
+    SocketPayOutReport,
     ApplicationStatusPayperModule,
   ],
   controllers: [],
