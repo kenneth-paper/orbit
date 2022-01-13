@@ -11,4 +11,6 @@ export class ApplicationStatus {
     version_front_end: string;
     @Column({ length: 50 })
     version_mobile_app: string;
+    @Column({ length: 50 })
+    version_payper: string;
 }
