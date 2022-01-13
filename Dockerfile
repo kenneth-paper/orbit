@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.0-experimental
-FROM node:10-alpine
+FROM node:12-alpine3.11
 ARG APP_ENV
 # Set workdir
 WORKDIR /home/app
@@ -31,6 +31,7 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
     npm install --unsafe-perm --allow-root && \
     npm install -g pm2 && \
+    npm run typeorm migration:run && \
     npm run build
 # Expose
 EXPOSE 3000
