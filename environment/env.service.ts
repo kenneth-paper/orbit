@@ -29,7 +29,7 @@ export class EnvService {
 
   constructor() {
     const environment = process.env.NODE_ENV || 'development'
-    const data: any = (environment != 'local') ? dotenv.parse(fs.readFileSync(`.env.${environment}`)) : dotenv.parse(fs.readFileSync(`.env`))
+    const data: any = dotenv.parse(fs.readFileSync(`.env`))
 
     data.APP_ENV = environment
     data.DB_PORT = parseInt(data.DB_PORT)
