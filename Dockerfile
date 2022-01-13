@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.0-experimental
-FROM node:12-alpine3.11
+FROM node:10-alpine
 ARG APP_ENV
 # Set workdir
 WORKDIR /home/app
