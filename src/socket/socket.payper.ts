@@ -29,6 +29,13 @@ import {
       console.log("payload", payload)
       this.server.in(payload.room).emit('paymentStatus', payload);
     }
+
+    @SubscribeMessage('invoiceStatus')
+    invoiceStatus(client: Socket, payload: any): void {
+      console.log(payload.room)
+      console.log("payload", payload)
+      this.server.in(payload.room).emit('invoiceStatus', payload);
+    }
    
     afterInit(server: Server) {
   
