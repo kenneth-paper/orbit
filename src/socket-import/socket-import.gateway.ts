@@ -78,6 +78,16 @@ export class SocketImportGateway implements OnGatewayInit, OnGatewayConnection, 
     }
   }
 
+  @SubscribeMessage('upload_stamp')
+  uploadStamp(client: Socket, payload: any): void {
+    console.log('upload_stamp room ' + payload.room + " : "  + payload.progress);
+    try {
+      client.to(payload.room).broadcast.emit('upload_stamp', payload);
+    } catch(err){
+      this.logger.log(err);
+    }
+  }
+
   afterInit(server: Server) {
 
   }
