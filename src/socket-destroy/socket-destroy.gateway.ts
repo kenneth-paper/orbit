@@ -38,6 +38,16 @@ export class SocketDestroyGateway implements OnGatewayInit, OnGatewayConnection,
     }
   }
 
+  @SubscribeMessage('selected_sales_invoices')
+  selectedSalesInvoices(client: Socket, payload: any): void {
+    console.log('selected_sales_invoices ' + payload.progress);
+    try {
+      client.to(payload.room).broadcast.emit('selected_sales_invoices', payload);
+    } catch(err){
+      this.logger.log(err);
+    }
+  }
+
   afterInit(server: Server) {
 
   }
