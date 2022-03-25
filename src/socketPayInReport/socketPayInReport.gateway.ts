@@ -30,7 +30,7 @@ import {
   
     @SubscribeMessage('progress')
     downloadProgress(client: Socket, payload: any): void {
-      console.log('pay out report ' + payload.room + " : "  + payload.progress);
+      console.log('pay in report ' + payload.room + " : "  + payload.progress);
       try {
         client.to(payload.room).broadcast.emit('progress', payload);
       } catch(err){
