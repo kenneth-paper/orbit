@@ -12,7 +12,7 @@ import { PushNotificationModule } from './pushNotification/pushNotification.modu
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gateway';
-
+import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 
 
 @Module({
@@ -29,6 +29,7 @@ import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gate
     SocketWorkflowModule,
     SocketPayOutReport,
     ApplicationStatusPayperModule,
+    SocketDestroyModule,
   ],
   controllers: [],
   providers: [],
