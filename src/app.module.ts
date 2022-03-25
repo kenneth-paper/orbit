@@ -13,7 +13,7 @@ import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gateway';
-
+import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 
 
 @Module({
@@ -31,6 +31,7 @@ import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gate
     SocketPayOutReport,
     ApplicationStatusSAPModule,
     ApplicationStatusPayperModule,
+    SocketDestroyModule,
   ],
   controllers: [],
   providers: [],
