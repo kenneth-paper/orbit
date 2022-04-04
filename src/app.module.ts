@@ -1,6 +1,6 @@
 import { Module,MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
-import { ApplicationStatusSAPModule } from './applicationStatusSAP/applicationStatusSAP.module';
+import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { DatabaseModule } from '../environment/database.module';
 import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middleware';
 import { SocketModule } from './socket/socket.module';
@@ -11,10 +11,9 @@ import { SocketExportModule } from './socket-export/socket-export.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
-import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutReport.module';
 import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
-
+import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 
 
 @Module({
@@ -30,8 +29,8 @@ import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.m
     SocketHttpModule,
     SocketWorkflowModule,
     SocketPayOutExportModule,
-    ApplicationStatusSAPModule,
     ApplicationStatusPayperModule,
+    SocketDestroyModule,
     SocketPayInExportModule,
   ],
   controllers: [],
@@ -42,7 +41,7 @@ export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(ApplicationStatusMiddleware)
-      .forRoutes('application-status','sync-gateway','push-notification','application-status-sap','push-workflow')
+      .forRoutes('application-status','sync-gateway','push-notification','push-workflow')
       .apply(logger)
       .forRoutes('socket', 'socket-http');
   }
