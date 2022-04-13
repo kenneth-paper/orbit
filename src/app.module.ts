@@ -12,7 +12,8 @@ import { PushNotificationModule } from './pushNotification/pushNotification.modu
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
-import { SocketPayOutReport } from './socketPayOutReport/socketPayOutReport.gateway';
+import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutReport.module';
+import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
 import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 
 
@@ -28,7 +29,8 @@ import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
     HttpModule,
     SocketHttpModule,
     SocketWorkflowModule,
-    SocketPayOutReport,
+    SocketPayInExportModule,
+    SocketPayOutExportModule,
     ApplicationStatusSAPModule,
     ApplicationStatusPayperModule,
     SocketDestroyModule,

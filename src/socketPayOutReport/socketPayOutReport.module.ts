@@ -8,4 +8,4 @@ import {  SocketPayOutReport } from './socketPayOutReport.gateway';
       providers: [SocketPayOutReport],
       exports: [SocketPayOutReport],
 })
-export class SocketImportModule {}
+export class SocketPayOutExportModule {}
