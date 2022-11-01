@@ -28,6 +28,7 @@ import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
     HttpModule,
     SocketHttpModule,
     SocketWorkflowModule,
+    SocketPayInExportModule,
     SocketPayOutExportModule,
     ApplicationStatusPayperModule,
     SocketDestroyModule,

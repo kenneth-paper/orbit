@@ -13,7 +13,7 @@ RUN apk update --no-cache && \
     apk add --no-cache -U tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     npm cache clean --force && \
-    rm -f package-lock.json && \
+    #rm -f package-lock.json && \
     rm -rf node_modules && \
     # Remove unwanted files
     rm -rf Dockerfile \
@@ -35,4 +35,4 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
 # Expose
 EXPOSE 3000
 # Start application
-CMD ["pm2-runtime","dist/src/main.js"]
+CMD pm2-runtime ecosystem.config.js --env ${APP_ENV}
