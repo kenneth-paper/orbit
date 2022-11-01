@@ -35,4 +35,4 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
 # Expose
 EXPOSE 3000
 # Start application
-CMD ["pm2-runtime","dist/src/main.js"]
+CMD pm2-runtime ecosystem.config.js --env ${APP_ENV}
