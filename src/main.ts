@@ -27,8 +27,6 @@ async function bootstrap() {
       httpsOptions,
     });
 
-    require('events').EventEmitter.prototype._maxListeners = 100;
-
     app.useWebSocketAdapter(new RedisIoAdapter(app));
     app.enableCors();
     await app.listen(3000);
