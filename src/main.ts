@@ -10,7 +10,12 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
     app.enableCors({
-      origin: true,
+      origin: [
+        'https://staging.paper.id',
+        'https://development.paper.id',
+        'https://www.paper.id',
+        'https://paper.id',
+      ],
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       credentials: true,
       allowedHeaders:
