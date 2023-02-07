@@ -19,7 +19,7 @@ export class SocketHttpController {
 
         const socket = io(url, {
             transports: ['websocket', 'polling', 'flashsocket'],
-            cors: { origin: '*'}
+            cors: { origin: '*'},
             rejectUnauthorized: false
         });        
         socket.emit(socketData.message, socketData.data);
