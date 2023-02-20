@@ -43,7 +43,7 @@ pipeline {
             steps {
                 // sh "mkdir -p /home/jenkins/workspace/${env.JOB_NAME}"
                 // sh "cd /home/jenkins/workspace/${env.JOB_NAME}"
-                git branch : "${env.BRANCH_NAME}", url : "${env.URL_BITBUCKET}", credentialsId : "${env.BITBUCKET_CRED}"
+                git branch : "${env.BRANCH_NAME}", url : "${env.GIT_URL}", credentialsId : "${env.BITBUCKET_CRED}"
             }
         }
         stage('Test'){
