@@ -107,7 +107,7 @@ def helmInstall (namespace,release,image_url,image_tag) {
     echo "Installing ${release} in ${namespace} with image ${image_url}:${image_tag}"
     echo "env ${release}"
     script {
-        sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
+        // sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
         sh """
             helm upgrade --install --namespace ${namespace} ${release} ./deployment/chart \
                 --set image.repository=${image_url},image.tag=${image_tag}
