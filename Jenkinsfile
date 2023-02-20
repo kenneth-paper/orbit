@@ -1,7 +1,7 @@
 pipeline {
+    agent { label 'jenkins-host' }
     environment {
         CONTAINER_NAME = 'paper-application-status'
-        // URL_BITBUCKET = "https://papertechnical@bitbucket.org/yosiadrywebsite/paper-application-status.git"
         
         BRANCH_PROD_REGEX = /(master|^.*prod*)/
         BRANCH_BUILD_REGEX = /(master|staging|development|project.*)/
@@ -25,11 +25,6 @@ pipeline {
         CLUSTER = getCluster(env.BRANCH_PROD_REGEX)
         ZONE= getZone()
     }
-    agent {
-        docker{
-            image "gcr.io/paper-prod/paper-k8s-deployment"
-        }
-    }
     options {
         skipDefaultCheckout()
     }
@@ -41,8 +36,6 @@ pipeline {
         }        
         stage('Pull Source Code') {
             steps {
-                // sh "mkdir -p /home/jenkins/workspace/${env.JOB_NAME}"
-                // sh "cd /home/jenkins/workspace/${env.JOB_NAME}"
                 git branch : "${env.BRANCH_NAME}", url : "${env.GIT_URL}", credentialsId : "${env.BITBUCKET_CRED}"
             }
         }
@@ -58,7 +51,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: "${env.DOCKER_GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_DOCKER_KEY')]) {
                     sh("gcloud auth activate-service-account --key-file=${GC_DOCKER_KEY}")
-                    sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} /home/jenkins/workspace/${env.JOB_NAME}/app"
+                    sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} ./${env.JOB_NAME}/app"
                 }
             }
         }
@@ -68,11 +61,10 @@ pipeline {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_BUILD_REGEX }
             }
             steps {
-                // sh "cd /var/jenkins_home/workspace/${env.JOB_NAME}"
                 sh "DOCKER_BUILDKIT=1 docker build -t ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.BUILD_ARG} ."
                 sh "docker tag ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.IMAGE_FULL_URL}"
-                withCredentials([file(credentialsId: "${env.GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_KEY')]) {
-                    sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
+                withCredentials([file(credentialsId: "${env.DOCKER_GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_DOCKER_KEY')]) {
+                    sh("gcloud auth activate-service-account --key-file=${GC_DOCKER_KEY}")
                     sh "gcloud auth configure-docker"
                     sh "docker push ${env.IMAGE_FULL_URL}"
                 }
@@ -90,7 +82,6 @@ pipeline {
                     // Create namespace if it doesn't exist
                     createNamespace(env.NAMESPACE)
                     // Deploy using helm
-                    // sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
                     helmInstall(env.NAMESPACE,env.RELEASE,env.IMAGE_URL,env.IMAGE_TAG)
                 }
             }
