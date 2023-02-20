@@ -1,19 +1,22 @@
 pipeline {
     environment {
         CONTAINER_NAME = 'paper-application-status'
-        URL_BITBUCKET = "https://papertechnical@bitbucket.org/yosiadrywebsite/paper-application-status.git"
-
+        // URL_BITBUCKET = "https://papertechnical@bitbucket.org/yosiadrywebsite/paper-application-status.git"
+        
         BRANCH_PROD_REGEX = /(master|^.*prod*)/
         BRANCH_BUILD_REGEX = /(master|staging|development|project.*)/
         BRANCH_PROJECT_REGEX = /project.*/
-        BITBUCKET_CRED = "3f1c89d3-4479-470f-b167-d3b238fb58a9"
-        GITHUB_TOKEN ="4acfd1c74a8dda1a14771ccd10c7396a5e51b0d4"
+        BITBUCKET_CRED = "https-github-damastahandippr"
+        GITHUB_TOKEN ="https-github-damastahandippr"
         GIT_SLUG_BRANCH = getSlug(env.BRANCH_PROJECT_REGEX)
+        GIT_URL = "https://github.com/paper-indonesia/paper-application-status.git"
         IMAGE_TAG =  "${env.GIT_SLUG_BRANCH}-${currentBuild.number}"
         IMAGE_URL = "gcr.io/paper-prod/${env.CONTAINER_NAME}"
         IMAGE_FULL_URL = "${env.IMAGE_URL}:${env.IMAGE_TAG}"
         BUILD_ARG = "--build-arg APP_ENV=${getArgs(env.BRANCH_PROJECT_REGEX)} --build-arg GITHUB_TOKEN=${env.GITHUB_TOKEN}"
         ENV_FILE_SUFFIX = "${getArgs(env.BRANCH_PROJECT_REGEX)}"
+
+        DOCKER_GOOGLE_SERVICE_ACCOUNT = "jenkins-cicd-jkt-docker-auth"
 
         GOOGLE_SERVICE_ACCOUNT = getGoogleServiceAccount(env.BRANCH_PROD_REGEX)
         RELEASE= "${env.CONTAINER_NAME}"
@@ -38,8 +41,8 @@ pipeline {
         }        
         stage('Pull Source Code') {
             steps {
-                sh "mkdir -p /var/jenkins_home/workspace/${env.JOB_NAME}"
-                sh "cd /var/jenkins_home/workspace/${env.JOB_NAME}"
+                // sh "mkdir -p /home/jenkins/workspace/${env.JOB_NAME}"
+                // sh "cd /home/jenkins/workspace/${env.JOB_NAME}"
                 git branch : "${env.BRANCH_NAME}", url : "${env.URL_BITBUCKET}", credentialsId : "${env.BITBUCKET_CRED}"
             }
         }
@@ -53,7 +56,10 @@ pipeline {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_PROD_REGEX }
             }
             steps {
-               sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} /var/jenkins_home/workspace/${env.JOB_NAME}/app"
+                withCredentials([file(credentialsId: "${env.DOCKER_GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_DOCKER_KEY')]) {
+                    sh("gcloud auth activate-service-account --key-file=${GC_DOCKER_KEY}")
+                    sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} /home/jenkins/workspace/${env.JOB_NAME}/app"
+                }
             }
         }
 
@@ -62,7 +68,7 @@ pipeline {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_BUILD_REGEX }
             }
             steps {
-                sh "cd /var/jenkins_home/workspace/${env.JOB_NAME}"
+                // sh "cd /var/jenkins_home/workspace/${env.JOB_NAME}"
                 sh "DOCKER_BUILDKIT=1 docker build -t ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.BUILD_ARG} ."
                 sh "docker tag ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.IMAGE_FULL_URL}"
                 withCredentials([file(credentialsId: "${env.GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_KEY')]) {
