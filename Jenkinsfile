@@ -1,4 +1,5 @@
 pipeline {
+    agent { label 'jenkins-host' }
     environment {
         CONTAINER_NAME = 'paper-application-status'
         
@@ -23,11 +24,6 @@ pipeline {
         GCP_PROJECT = getGCPProject(env.BRANCH_PROD_REGEX)
         CLUSTER = getCluster(env.BRANCH_PROD_REGEX)
         ZONE= getZone()
-    }
-    agent {
-        docker{
-            image "gcr.io/paper-prod/paper-k8s-deployment"
-        }
     }
     options {
         skipDefaultCheckout()
@@ -61,15 +57,14 @@ pipeline {
         }
 
         stage('Build Image') {
-            agent { label 'jenkins-host' }
             when {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_BUILD_REGEX }
             }
             steps {
                 sh "DOCKER_BUILDKIT=1 docker build -t ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.BUILD_ARG} ."
                 sh "docker tag ${env.CONTAINER_NAME}-${env.GIT_SLUG_BRANCH} ${env.IMAGE_FULL_URL}"
-                withCredentials([file(credentialsId: "${env.GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_KEY')]) {
-                    sh("gcloud auth activate-service-account --key-file=${GC_KEY}")
+                withCredentials([file(credentialsId: "${env.DOCKER_GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_DOCKER_KEY')]) {
+                    sh("gcloud auth activate-service-account --key-file=${GC_DOCKER_KEY}")
                     sh "gcloud auth configure-docker"
                     sh "docker push ${env.IMAGE_FULL_URL}"
                 }
