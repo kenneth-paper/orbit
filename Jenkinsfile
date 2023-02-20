@@ -90,7 +90,7 @@ pipeline {
                     // Create namespace if it doesn't exist
                     createNamespace(env.NAMESPACE)
                     // Deploy using helm
-                    sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
+                    // sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
                     helmInstall(env.NAMESPACE,env.RELEASE,env.IMAGE_URL,env.IMAGE_TAG)
                 }
             }
