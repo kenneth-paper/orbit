@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.0-experimental
 FROM node:10-alpine
 ARG APP_ENV
-ENV APP_ENV {APP_ENV}
+ENV APP_ENV ${APP_ENV}
 # Set workdir
 WORKDIR /home/app
 # Add files
