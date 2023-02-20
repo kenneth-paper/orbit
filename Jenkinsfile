@@ -1,4 +1,5 @@
 pipeline {
+    agent { label 'jenkins-host' }
     environment {
         CONTAINER_NAME = 'paper-application-status'
         // URL_BITBUCKET = "https://papertechnical@bitbucket.org/yosiadrywebsite/paper-application-status.git"
