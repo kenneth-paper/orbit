@@ -14,7 +14,7 @@ RUN apk update --no-cache && \
     apk add --no-cache -U tzdata && \
     cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
     npm cache clean --force && \
-    rm -f package-lock.json && \
+    # rm -f package-lock.json && \
     rm -rf node_modules && \
     # Remove unwanted files
     rm -rf Dockerfile \
