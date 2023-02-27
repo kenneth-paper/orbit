@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1.0-experimental
 FROM node:10-alpine
 ARG APP_ENV
+ARG COMPOSER_AUTH
+ENV COMPOSER_AUTH ${COMPOSER_AUTH}
 ENV APP_ENV ${APP_ENV}
 # Set workdir
 WORKDIR /home/app
@@ -24,7 +26,7 @@ RUN apk update --no-cache && \
     Jenkinsfile \
     id_rsa_private_jenkins \
     .git \
-    .env.* \
+#    .env.* \
     deployment
 
 # Install package & run
