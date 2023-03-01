@@ -16,7 +16,7 @@ fullnameOverride: ""
 
 env:
   - name: NODE_ENV
-    value: "local"
+    value: "production"
 
 ports:
   - containerPort: 3000
