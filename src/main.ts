@@ -4,8 +4,26 @@ import { RedisIoAdapter } from './pushNotification/redis-io.adapter';
 const path = require('path');
 import 'dotenv/config';
 import * as fs from 'fs';
+import * as cluster from 'cluster';
+import * as os from 'os';
+import * as http from 'http';
 
 async function bootstrap() {
+  if (cluster.isMaster) {
+    // Get the number of CPUs in the system
+    const numCPUs = os.cpus().length;
+  
+    // Fork workers for each CPU
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+  
+    // Listen for when a worker exits
+    cluster.on('exit', (worker, code, signal) => {
+      console.log(`Worker ${worker.process.pid} died with code ${code} and signal ${signal}`);
+      cluster.fork();
+    });
+  } else {
   if (process.env.NODE_ENV == 'local') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
@@ -75,6 +93,7 @@ async function bootstrap() {
     app.enableCors();
     await app.listen(3000);
   }
+}
 }
 
 bootstrap();
