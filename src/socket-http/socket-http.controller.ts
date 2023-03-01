@@ -28,7 +28,7 @@ export class SocketHttpController {
         } else {
             // Each worker process handles its own socket connections
             const socket = io(url, {
-                transports: ['websocket','polling'],
+                transports: ['websocket'],
                 rejectUnauthorized: false
             });        
             socket.emit(socketData.message, socketData.data);
