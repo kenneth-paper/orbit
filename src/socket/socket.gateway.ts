@@ -9,7 +9,7 @@ import {
   import { Logger } from '@nestjs/common';
   import { Socket, Server } from 'socket.io';
   
-   @WebSocketGateway({namespace: "/socket/download", transports: ['websocket']})
+   @WebSocketGateway({namespace: "/socket/download"})
    export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
    
     @WebSocketServer() server: Server;
