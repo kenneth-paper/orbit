@@ -10,7 +10,7 @@ import { Server,Socket } from "socket.io";
 import { Logger, Injectable, Inject, forwardRef } from "@nestjs/common";
 import { ApplicationStatusService } from "./applicationStatus.service";
 
-@WebSocketGateway({transports: ['websocket']})
+@WebSocketGateway()
 @Injectable()
 export class StatusGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayDisconnect {
 
