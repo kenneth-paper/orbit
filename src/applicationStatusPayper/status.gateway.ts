@@ -1,39 +1,28 @@
-import {
-  WebSocketGateway,
-  WebSocketServer,
-  OnGatewayConnection,
-  OnGatewayInit,
-  OnGatewayDisconnect,
-  SubscribeMessage,
-} from '@nestjs/websockets';
-import { Server,Socket } from "socket.io";
+import { WebSocketGateway, WebSocketServer, OnGatewayConnection } from "@nestjs/websockets";
+import { Server } from "socket.io";
 import { Logger, Injectable, Inject, forwardRef } from "@nestjs/common";
 import { ApplicationStatusPayperService } from "./applicationStatusPayper.service";
 
 @WebSocketGateway()
 @Injectable()
-export class StatusGateway implements OnGatewayInit,OnGatewayConnection,OnGatewayDisconnect {
+export class StatusGateway implements OnGatewayConnection {
 
   constructor(@Inject(forwardRef(()=>ApplicationStatusPayperService))private service: ApplicationStatusPayperService) {}
 
-  @WebSocketServer() server: Server;
+  @WebSocketServer() wss: Server;
   private logger: Logger = new Logger('StatusGateway');
 
-  handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`);
+  async handleConnection(client: any, ...args: any[]) {
+    var result = await this.service.getApplicationStatus();
+    if (!result.status){
+      this.sendToAll('status',result);
+    }
   }
 
-  @SubscribeMessage("status")
-  handleStatusMessage(payload: any) : void {
-    this.logger.log('status gateway ' + payload)
-    this.server.emit("status",payload)
-  }
-
-  async handleDisconnect(client: any) {
-    await this.logger.log(`Client disconnected: ${client.id}`);
-  }
-
-  afterInit(server: any): any {
-
+  sendToAll(msg: string, data){
+    this.logger.log(`StatusGateway -> sendToAll ${msg}`);
+    this.logger.log(`StatusGateway -> sendToAll ${data}`);
+    console.log(data);
+    this.wss.emit(msg,data);
   }
 }
