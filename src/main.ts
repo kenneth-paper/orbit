@@ -1,9 +1,8 @@
-import 'dotenv/config';
-import { NewrelicInterceptor } from './newrelic.interceptor';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RedisIoAdapter } from './pushNotification/redis-io.adapter';
 const path = require('path');
+import 'dotenv/config';
 import * as fs from 'fs';
 import * as cluster from 'cluster';
 import * as os from 'os';
@@ -28,7 +27,6 @@ async function bootstrap() {
   if (process.env.NODE_ENV == 'local') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -40,7 +38,6 @@ async function bootstrap() {
   } else if (process.env.NODE_ENV == 'development') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -52,7 +49,6 @@ async function bootstrap() {
   } else if (process.env.NODE_ENV == 'staging') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -64,7 +60,6 @@ async function bootstrap() {
   } else if (process.env.NODE_ENV == 'sandbox') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -76,7 +71,6 @@ async function bootstrap() {
   } else if (process.env.NODE_ENV == 'production') {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -96,7 +90,6 @@ async function bootstrap() {
     });
 
     app.useWebSocketAdapter(new RedisIoAdapter(app));
-    app.useGlobalInterceptors(new NewrelicInterceptor());
     app.enableCors();
     await app.listen(3000);
   }
