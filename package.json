@@ -46,13 +46,15 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "socket.io-redis": "^5.2.0",
+    "typeorm": "^0.2.19",
     "supertest": "4.0.2",
     "ts-node": "8.1.0",
     "tsc-watch": "2.2.1",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typeorm": "^0.2.19"
+    "typescript": "3.7.2",
+    "socket.io-redis": "^5.2.0",
+    "newrelic": "^9.10.2"
   },
   "devDependencies": {
     "@nestjs/platform-socket.io": "^6.11.11",
