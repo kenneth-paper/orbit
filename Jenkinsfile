@@ -1,46 +1,102 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.TimeZone
+import java.time.LocalTime
+import java.util.regex.*
+
 pipeline {
-    agent { label 'jenkins-host' }
+    agent { label 'jenkins-host'}
+    
     environment {
         CONTAINER_NAME = 'paper-application-status'
+        GIT_URL = "https://github.com/paper-indonesia/paper-application-status.git"
         BRANCH_PROD_REGEX = /(master|^.*prod*)/
         BRANCH_BUILD_REGEX = /(master|staging|development|project.*)/
         BRANCH_PROJECT_REGEX = /project.*/
-        BITBUCKET_CRED = "https-github-damastahandippr"
+        BRANCH_GOLDEN_HOUR = /(staging)/
+        USER_PERMITTED = /admin|kenneth|wahyu-kodar|jeremy|renald|andri-firza|setiawan/
+        GITHUB_CRED = "https-github-damastahandippr"
+        NEW_RELIC_LICENSE_KEY = credentials('NEW_RELIC_LICENSE_KEY')
         COMPOSER_AUTH = credentials("https-github-damastahandippr")
         GIT_SLUG_BRANCH = getSlug(env.BRANCH_PROJECT_REGEX)
-        GIT_URL = "https://github.com/paper-indonesia/paper-application-status.git"
         IMAGE_TAG =  "${env.GIT_SLUG_BRANCH}-${currentBuild.number}"
         IMAGE_URL = "gcr.io/paper-prod/${env.CONTAINER_NAME}"
         IMAGE_FULL_URL = "${env.IMAGE_URL}:${env.IMAGE_TAG}"
-        BUILD_ARG = "--build-arg APP_ENV=${getArgs(env.BRANCH_PROJECT_REGEX)}"
+        BUILD_ARG = "--build-arg APP_ENV=${getArgs(env.BRANCH_PROJECT_REGEX)} --build-arg GITHUB_TOKEN=${env.COMPOSER_AUTH} --build-arg NEW_RELIC_LICENSE_KEY=${env.NEW_RELIC_LICENSE_KEY}"
         ENV_FILE_SUFFIX = "${getArgs(env.BRANCH_PROJECT_REGEX)}"
         DOCKER_GOOGLE_SERVICE_ACCOUNT = "jenkins-cicd-jkt-docker-auth"
         GOOGLE_SERVICE_ACCOUNT = getGoogleServiceAccount(env.BRANCH_PROD_REGEX)
-        RELEASE= "${env.CONTAINER_NAME}"
+        RELEASE = "${env.CONTAINER_NAME}"
         NAMESPACE = getNamespace(env.BRANCH_PROJECT_REGEX)
         GCP_PROJECT = getGCPProject(env.BRANCH_PROD_REGEX)
         CLUSTER = getCluster(env.BRANCH_PROD_REGEX)
-        ZONE= getZone()
+        ZONE = getZone()
     }
+
     options {
         skipDefaultCheckout()
     }
     stages {
+        stage('Check time window') {
+            when {
+                expression { env.BRANCH_NAME ==~ env.BRANCH_GOLDEN_HOUR }
+            }
+            steps {
+                script {
+                    def user = env.BUILD_USER_ID
+                    def currentTime = LocalTime.now(ZoneId.systemDefault())
+                    
+                    def isInTimeWindow = true
+
+                    def timeWindows = [
+                        [startTime: LocalTime.parse("06:00"), endTime: LocalTime.parse("10:00")],
+                        [startTime: LocalTime.parse("14:00"), endTime: LocalTime.parse("16:00")],
+                        [startTime: LocalTime.parse("18:00"), endTime: LocalTime.parse("20:00")]
+                    ] 
+
+                    for (window in timeWindows) {
+                        def startTime = window.startTime
+                        def endTime = window.endTime
+
+                        if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+                            isInTimeWindow = false
+                            break
+                        }
+                    }
+
+                    if (isInTimeWindow) {
+                            echo "Outside one of the time windows, proceeding with job build"
+                        } else {
+                        if (user ==~ env.USER_PERMITTED) {
+                            echo "Allowed user: ${exemptedUsers.join(', ')}. Proceeding with job build."
+                        } else {
+                            error("Job can only be built outside the specified time windows.")
+                        }
+                    }
+                }
+            }
+        }
+
         stage('Init') {
             steps {
                 slackSend( message: "${env.CONTAINER_NAME} >> ${env.BRANCH_NAME} ver. ${currentBuild.number} is building now! :pray:",color: '#4199d5')
             }
-        }        
+        }
+
         stage('Pull Source Code') {
             steps {
-                git branch : "${env.BRANCH_NAME}", url : "${env.GIT_URL}", credentialsId : "${env.BITBUCKET_CRED}"
+                slackSend( message: "${env.CONTAINER_NAME} >> ${env.BRANCH_NAME} ver. ${currentBuild.number} is building now! :pray:",color: '#4199d5')
+                git branch : "${env.BRANCH_NAME}", url : "${env.GIT_URL}", credentialsId : "${env.GITHUB_CRED}"
             }
         }
+        
         stage('Test'){
             steps {
                 echo "Skip this test :("
             }
         }
+        
         stage('Set ENV Production'){
             when {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_PROD_REGEX }
@@ -48,7 +104,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: "${env.DOCKER_GOOGLE_SERVICE_ACCOUNT}", variable: 'GC_DOCKER_KEY')]) {
                     sh("gcloud auth activate-service-account --key-file=${GC_DOCKER_KEY}")
-                    sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} ./${env.JOB_NAME}/app"
+                    sh "gsutil -m cp -r gs://paper-production-env/${env.CONTAINER_NAME}/gcp/.env.${env.ENV_FILE_SUFFIX} ./${env.JOB_NAME}/core"
                 }
             }
         }
@@ -104,7 +160,6 @@ def helmInstall (namespace,release,image_url,image_tag) {
     echo "Installing ${release} in ${namespace} with image ${image_url}:${image_tag}"
     echo "env ${release}"
     script {
-        // sh("cd /var/jenkins_home/workspace/${env.JOB_NAME}")
         sh """
             helm upgrade --install --namespace ${namespace} ${release} ./deployment/chart \
                 --set image.repository=${image_url},image.tag=${image_tag}
