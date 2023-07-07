@@ -14,7 +14,7 @@ export class ApplicationStatus {
     @Column({ length: 50 })
     version_payper: string;
     @Column()
-    mt_start_duration_minutes : number;
+    mt_start_duration_seconds : number;
     @Column()
-    mt_end_duration_minutes : number;
+    mt_end_duration_seconds : number;
 }
