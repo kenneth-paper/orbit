@@ -38,7 +38,7 @@ pipeline {
         skipDefaultCheckout()
     }
     stages {
-        stage('Check time window') {
+        /* stage('Check time window') {
             when {
                 expression { env.BRANCH_NAME ==~ env.BRANCH_GOLDEN_HOUR }
             }
@@ -76,7 +76,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Init') {
             steps {
