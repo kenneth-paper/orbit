@@ -13,4 +13,6 @@ export class ApplicationStatus {
     version_mobile_app: string;
     @Column({ length: 50 })
     version_payper: string;
+    @Column({ length: 50 })
+    duration: string;
 }
