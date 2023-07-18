@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.0-experimental
-FROM node:10-alpine
+FROM node:14-alpine
 ARG APP_ENV
 ARG COMPOSER_AUTH
 ARG CLUSTER_K8S
