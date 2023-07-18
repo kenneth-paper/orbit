@@ -11,7 +11,8 @@ WORKDIR /home/app
 COPY . .
 # COPY .env files
 RUN if [ "${APP_ENV}" = "staging" ]; then \
-    cp ./environment/.env.staging.${CLUSTER_K8S} .env; \
+    cp ./environment/.env.staging.${CLUSTER_K8S} .env \
+        && cp ./environment/.env.staging.${CLUSTER_K8S} .env.{APP_ENV}; \
     else \
     cp .env.${APP_ENV} .env; \
     fi
