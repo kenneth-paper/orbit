@@ -2,14 +2,19 @@
 FROM node:14-alpine
 ARG APP_ENV
 ARG COMPOSER_AUTH
+ARG CLUSTER_K8S
 ENV COMPOSER_AUTH=$COMPOSER_AUTH
-ENV APP_ENV ${APP_ENV}
+ENV APP_ENV ${APP_ENV} ${NODE_ENV}
 # Set workdir
 WORKDIR /home/app
 # Add files
-ADD . .
+COPY . .
 # COPY .env files
-COPY .env.${APP_ENV} .env
+RUN if [ "${APP_ENV}" = "staging" ]; then \
+    cp ./environment/.env.staging.${CLUSTER_K8S} .env; \
+    else \
+    cp .env.${APP_ENV} .env; \
+    fi
 # Update, install package, remove module and unused file
 RUN apk update --no-cache && \
     apk add --no-cache bash && \
@@ -35,6 +40,9 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install --unsafe-perm --allow-root && \
     npm install -g pm2 && \
     npm run build
+# Declare another Args Docker build
+ARG APP_ENV
+ENV APP_ENV ${APP_ENV} ${NODE_ENV}
 # Expose
 EXPOSE 3000
 # Start application
