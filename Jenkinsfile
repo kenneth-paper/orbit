@@ -8,8 +8,8 @@ import java.util.regex.*
 pipeline {
 	agent { label 'jenkins-host' }
 	environment {
-		CONTAINER_NAME = 'paper-application-status'
-		URL_GITHUB = "https://github.com/paper-indonesia/paper-application-status.git"
+		CONTAINER_NAME = 'paper-bank-account'
+		URL_GITHUB = "https://github.com/paper-indonesia/paper-bank-account.git"
 		BRANCH_PROD_REGEX = /(master|^.*prod*)/
 		BRANCH_BUILD_REGEX = /(master|development|project.*)/
 		BRANCH_PROJECT_REGEX = /project.*/
@@ -286,6 +286,8 @@ def getGCPProject(branchProdRegex) {
 		project = "development"
 	}  else if (env.BRANCH_NAME ==~ branchProdRegex){
         project = "development"
+    } else {
+        project = "development"
     }
   	return "paper-${project}"
 }
@@ -295,12 +297,14 @@ def getGCPProject(branchProdRegex) {
 */
 def getCluster(branchProdRegex) {
 	if (env.BRANCH_NAME == 'master') {
-		args = "paper-prod-cluster"
+		args = "paper-prod-cluster"cd
 	} else if (env.BRANCH_NAME == 'staging') {
 		args = "paper-staging-cluster-01"
 	} else if (env.BRANCH_NAME == 'development') {
 		args = "paper-dev-cluster-01"
 	} else if (env.BRANCH_NAME ==~ branchProdRegex){
+        args = "paper-dev-cluster-01"
+    } else {
         args = "paper-dev-cluster-01"
     }
   	return args
@@ -324,6 +328,8 @@ def getGoogleServiceAccount(branchProdRegex) {
 	} else if (env.BRANCH_NAME == 'development') {
 		gsa = "paper-development-secret"
 	}  else if (env.BRANCH_NAME ==~ branchProdRegex){
+        gsa = "paper-development-secret"
+    } else {
         gsa = "paper-development-secret"
     }
   	return gsa
