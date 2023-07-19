@@ -8,8 +8,8 @@ import java.util.regex.*
 pipeline {
 	agent { label 'jenkins-host' }
 	environment {
-		CONTAINER_NAME = 'paper-bank-account'
-		URL_GITHUB = "https://github.com/paper-indonesia/paper-bank-account.git"
+		CONTAINER_NAME = 'paper-application-status'
+		URL_GITHUB = "https://github.com/paper-indonesia/paper-application-status.git"
 		BRANCH_PROD_REGEX = /(master|^.*prod*)/
 		BRANCH_BUILD_REGEX = /(master|development|project.*)/
 		BRANCH_PROJECT_REGEX = /project.*/
