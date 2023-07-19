@@ -300,7 +300,7 @@ def getGCPProject(branchProdRegex) {
 */
 def getCluster(branchProdRegex) {
 	if (env.BRANCH_NAME == 'master') {
-		args = "paper-prod-cluster"cd
+		args = "paper-prod-cluster"
 	} else if (env.BRANCH_NAME == 'staging') {
 		args = "paper-staging-cluster-01"
 	} else if (env.BRANCH_NAME == 'development') {
