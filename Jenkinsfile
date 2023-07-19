@@ -18,6 +18,7 @@ pipeline {
 		GITHUB_CRED = "https-github-damastahandippr"
 		NEW_RELIC_LICENSE_KEY = credentials('NEW_RELIC_LICENSE_KEY')
         COMPOSER_AUTH = credentials("https-github-damastahandippr")
+		GITHUB_SSH = credentials('ssh-github-damastahandippr')
 		GIT_SLUG_BRANCH = getSlug(env.BRANCH_PROJECT_REGEX)	
 		IMAGE_TAG =  "${env.GIT_SLUG_BRANCH}-${currentBuild.number}"
 		IMAGE_URL = "gcr.io/paper-prod/${env.CONTAINER_NAME}"
@@ -84,6 +85,8 @@ pipeline {
 		stage('Pull Source Code') {
 			steps {
 				git branch : "${env.BRANCH_NAME}", url : "${env.URL_GITHUB}", credentialsId : "${env.GITHUB_CRED}"
+				sh 'cat $GITHUB_SSH > id_rsa'
+                sh 'chmod 600 id_rsa'
 			}
 		}
 		stage('Test'){
