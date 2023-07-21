@@ -6,18 +6,19 @@ import { StatusGateway } from "./status.gateway";
 
 @Injectable()
 export class ApplicationStatusPayperService {
-    constructor(
-        @InjectRepository(ApplicationStatusPayper) private applicationStatusPayperRepository: Repository<ApplicationStatusPayper>,
-        @Inject(forwardRef(() => StatusGateway)) private statusGateway: StatusGateway
-        ) { }
+  constructor(
+    @InjectRepository(ApplicationStatusPayper) private applicationStatusPayperRepository: Repository<ApplicationStatusPayper>,
+    @Inject(forwardRef(() => StatusGateway)) private statusGateway: StatusGateway
+  ) { }
 
-    async getApplicationStatusPayper(): Promise<ApplicationStatusPayper> {
-        return await this.applicationStatusPayperRepository.findOne();
-    }
+  async getApplicationStatus(): Promise<ApplicationStatusPayper> {
+    return await this.applicationStatusPayperRepository.findOne();
+  }
 
-    async updateApplicationStatusPayper(applicationStatusPayper: ApplicationStatusPayper): Promise<number> {
-        this.applicationStatusPayperRepository.save(applicationStatusPayper);
-        this.statusGateway.handleStatusMessage(applicationStatusPayper);
-        return await this.applicationStatusPayperRepository.count();
-    }
+  async updateApplicationStatus(applicationStatus: ApplicationStatusPayper): Promise<any> {
+    let result = await this.applicationStatusPayperRepository.save(applicationStatus);// tambahin catch
+    //use socket.io to send notification to connected client
+    this.statusGateway.sendToAll('status',result);
+    return result;
+  }
 }

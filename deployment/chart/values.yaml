@@ -16,7 +16,7 @@ fullnameOverride: ""
 
 env:
   - name: NODE_ENV
-    value: "production"
+    value: "staging"
 
 ports:
   - containerPort: 3000
