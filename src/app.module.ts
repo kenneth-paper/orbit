@@ -14,6 +14,7 @@ import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
 import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutReport.module';
 import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
 import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
+import { SocketSubscriptionModule } from './socket-subscription/socket-subscription.module';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
     SocketPayOutExportModule,
     ApplicationStatusPayperModule,
     SocketDestroyModule,
+    SocketSubscriptionModule,
     SocketPayInExportModule,
   ],
   controllers: [],
