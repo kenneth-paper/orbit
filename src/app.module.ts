@@ -15,11 +15,11 @@ import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutRepor
 import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
 import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 import { SocketSubscriptionModule } from './socket-subscription/socket-subscription.module';
-
+import { HealthCheckModule } from './healthCheck/healthCheck.module';
 
 @Module({
   imports: [
-    DatabaseModule, 
+    DatabaseModule,
     ApplicationStatusModule,
     SyncGatewayModule,
     SocketModule,
@@ -35,17 +35,18 @@ import { SocketSubscriptionModule } from './socket-subscription/socket-subscript
     SocketDestroyModule,
     SocketSubscriptionModule,
     SocketPayInExportModule,
+    HealthCheckModule,
   ],
   controllers: [],
   providers: [],
 })
 
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ApplicationStatusMiddleware)
-      .forRoutes('application-status','sync-gateway','push-notification','push-workflow')
-      .apply(logger)
-      .forRoutes('socket', 'socket-http');
-  }
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(ApplicationStatusMiddleware)
+            .forRoutes('application-status', 'sync-gateway', 'push-notification', 'push-workflow')
+            .apply(logger)
+            .forRoutes('socket', 'socket-http', 'health-check');
+    }
 }
