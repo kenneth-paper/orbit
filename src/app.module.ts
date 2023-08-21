@@ -1,4 +1,4 @@
-import { Module,MiddlewareConsumer, HttpModule } from '@nestjs/common';
+import { Module, MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
 import { ApplicationStatusSAPModule } from './applicationStatusSAP/applicationStatusSAP.module';
 import { DatabaseModule } from '../environment/database.module';
@@ -16,11 +16,11 @@ import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutRepor
 import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
 import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
 import { SocketSubscriptionModule } from './socket-subscription/socket-subscription.module';
-
+import { HealthCheckModule } from './healthCheck/healthCheck.module';
 
 @Module({
   imports: [
-    DatabaseModule, 
+    DatabaseModule,
     ApplicationStatusModule,
     SyncGatewayModule,
     SocketModule,
@@ -36,17 +36,18 @@ import { SocketSubscriptionModule } from './socket-subscription/socket-subscript
     ApplicationStatusPayperModule,
     SocketDestroyModule,
     SocketSubscriptionModule,
+    HealthCheckModule,
   ],
   controllers: [],
   providers: [],
 })
 
 export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(ApplicationStatusMiddleware)
-      .forRoutes('application-status','sync-gateway','push-notification','application-status-sap','push-workflow')
-      .apply(logger)
-      .forRoutes('socket', 'socket-http');
-  }
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(ApplicationStatusMiddleware)
+            .forRoutes('application-status', 'sync-gateway', 'push-notification', 'application-status-sap', 'push-workflow')
+            .apply(logger)
+            .forRoutes('socket', 'socket-http', 'health-check');
+    }
 }
