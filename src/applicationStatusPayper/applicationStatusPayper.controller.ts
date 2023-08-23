@@ -1,21 +1,19 @@
-import { Controller, Get, Put, Body, Res } from "@nestjs/common";
+import { Controller, Get, Put, Body } from "@nestjs/common";
 import { ApplicationStatusPayperService } from "./applicationStatusPayper.service";
 import { ApplicationStatusPayper } from "./applicationStatusPayper.entity";
-import { Response } from 'express';
 
 @Controller('application-status/payper')
 export class ApplicationStatusPayperController {
 
-    constructor(private service: ApplicationStatusPayperService) { }
+  constructor(private service: ApplicationStatusPayperService) { }
 
-    @Get()
-    getApplicationStatusPayper() {
-        return this.service.getApplicationStatusPayper();
-    }
+  @Get()
+  getPayperApplicationStatus() {
+    return this.service.getApplicationStatus();
+  }
 
-    @Put()
-    async updateApplicationStatusPayper(@Res() res: Response,@Body() applicationStatusPayper: ApplicationStatusPayper) : Promise<any>{
-        await this.service.updateApplicationStatusPayper(applicationStatusPayper);
-        res.status(200).json(applicationStatusPayper);
-    }
+  @Put()
+  updatePayperApplicationStatus(@Body() applicationStatus: ApplicationStatusPayper){
+    return this.service.updateApplicationStatus(applicationStatus);
+  }
 }

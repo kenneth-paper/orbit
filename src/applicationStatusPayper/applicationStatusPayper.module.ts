@@ -6,9 +6,9 @@ import { ApplicationStatusPayperController } from "./applicationStatusPayper.con
 import { StatusGateway } from "./status.gateway";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([ApplicationStatusPayper])],
-    providers: [ApplicationStatusPayperService, StatusGateway],
-    controllers: [ApplicationStatusPayperController],
+  imports: [TypeOrmModule.forFeature([ApplicationStatusPayper])],
+  providers: [ApplicationStatusPayperService, StatusGateway],
+  controllers: [ApplicationStatusPayperController],
 })
 
 export class ApplicationStatusPayperModule { }

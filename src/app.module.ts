@@ -1,6 +1,6 @@
 import { Module, MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { ApplicationStatusModule } from './applicationStatus/applicationStatus.module';
-import { ApplicationStatusSAPModule } from './applicationStatusSAP/applicationStatusSAP.module';
+import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { DatabaseModule } from '../environment/database.module';
 import {ApplicationStatusMiddleware} from './middlewares/applicationstatus.middleware';
 import { SocketModule } from './socket/socket.module';
@@ -11,7 +11,6 @@ import { SocketExportModule } from './socket-export/socket-export.module';
 import { PushNotificationModule } from './pushNotification/pushNotification.module';
 import { SocketHttpModule } from './socket-http/socket-http.module';
 import { SocketWorkflowModule } from './socketWorkflow/socketWorkflow.module';
-import { ApplicationStatusPayperModule } from './applicationStatusPayper/applicationStatusPayper.module';
 import { SocketPayOutExportModule } from './socketPayOutReport/socketPayOutReport.module';
 import { SocketPayInExportModule } from './socketPayInReport/socketPayInReport.module';
 import { SocketDestroyModule } from './socket-destroy/socket-destroy.module';
@@ -32,10 +31,10 @@ import { HealthCheckModule } from './healthCheck/healthCheck.module';
     SocketWorkflowModule,
     SocketPayInExportModule,
     SocketPayOutExportModule,
-    ApplicationStatusSAPModule,
     ApplicationStatusPayperModule,
     SocketDestroyModule,
     SocketSubscriptionModule,
+    SocketPayInExportModule,
     HealthCheckModule,
   ],
   controllers: [],
