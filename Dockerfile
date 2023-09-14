@@ -16,7 +16,7 @@ ENV APP_ENV ${APP_ENV} ${NODE_ENV}
 RUN if [ "${APP_ENV}" = "staging" ]; then \
     cp ./environment/.env.staging.${CLUSTER_K8S} .env && \
     cp ./environment/.env.staging.${CLUSTER_K8S} .env.${APP_ENV}; \
-    elseif [ "${APP_ENV}" = "production" ]\
+    elif [ "${APP_ENV}" = "production" ] \
     cp ./environment/.env.${APP_ENV} .env && \
     cp ./environment/.env.${APP_ENV} .env.${APP_ENV}; \
     else \
