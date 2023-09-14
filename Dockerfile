@@ -10,17 +10,15 @@ WORKDIR /home/app
 # Add files
 COPY . .
 # COPY .env files
-RUN if [ "${APP_ENV}" = "staging" ]; then \
-    cp ./environment/.env.staging.${CLUSTER_K8S} .env; \
-    else \
-    cp .env.${APP_ENV} .env; \
-    fi
-# COPY .env files
 ARG APP_ENV
 ARG CLUSTER_K8S
 ENV APP_ENV ${APP_ENV} ${NODE_ENV}
 RUN if [ "${APP_ENV}" = "staging" ]; then \
+    cp ./environment/.env.staging.${CLUSTER_K8S} .env && \
     cp ./environment/.env.staging.${CLUSTER_K8S} .env.${APP_ENV}; \
+    elseif [ "${APP_ENV}" = "production" ]\
+    cp ./environment/.env.${APP_ENV} .env && \
+    cp ./environment/.env.${APP_ENV} .env.${APP_ENV}; \
     else \
     cp .env.${APP_ENV} .env; \
     fi
@@ -40,7 +38,7 @@ RUN apk update --no-cache && \
     Jenkinsfile \
     id_rsa_private_jenkins \
     .git \
-#    .env.* \
+#   .env.* \
     deployment
 
 # Install package & run
@@ -48,7 +46,8 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
     npm install --unsafe-perm --allow-root && \
     npm install -g pm2 && \
-    npm run build
+    npm run build && \
+    npm run typeorm:run
 # Declare another Args Docker build
 ARG APP_ENV
 ENV APP_ENV ${APP_ENV} ${NODE_ENV}
