@@ -10,9 +10,16 @@ export class ApplicationStatus {
     @Column({ length: 512 })
     version_front_end: string;
     @Column({ length: 50 })
+    // RJ: soon deprecated if ios launched
     version_mobile_app: string;
     @Column({ length: 50 })
     version_payper: string;
+    @Column({ length: 50 })
+    version_mobile_web: string;
+    @Column({ length: 50 })
+    version_mobile_android: string;
+    @Column({ length: 50 })
+    version_mobile_ios: string;
     @Column()
     mt_start_duration_seconds : number;
     @Column()
