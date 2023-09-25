@@ -77,6 +77,11 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
     app.useWebSocketAdapter(new RedisIoAdapter(app));
     app.useGlobalInterceptors(new NewrelicInterceptor());
+    // start config: to handle payload too large
+    var bodyParser = require('body-parser');
+    app.use(bodyParser.json({limit: "50mb"}));
+    app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
+    // end config: to handle payload too large
     app.enableCors({
       origin: true,
       methods: 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
