@@ -1,0 +1,18 @@
+name: Merge master into staging & sandbox on PR merge
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  backmerge-sandbox:
+    uses: paper-indonesia/paper-devops/.github/workflows/backmerge-sandbox.yml@master
+    secrets:
+      SLACKNOTIF_GITHUB_SECRET: ${{ secrets.SLACKNOTIF_GITHUB_SECRET }}
+
+  backmerge-staging:
+    uses: paper-indonesia/paper-devops/.github/workflows/backmerge-staging.yml@master
+    secrets:
+      SLACKNOTIF_GITHUB_SECRET: ${{ secrets.SLACKNOTIF_GITHUB_SECRET }}
