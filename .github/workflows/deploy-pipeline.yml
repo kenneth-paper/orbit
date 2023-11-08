@@ -1,0 +1,25 @@
+name: Deployment Workflow Gitflow
+
+on:
+  push:
+    branches:
+      - development
+      - staging
+      - master
+  workflow_dispatch:
+
+jobs:
+    deploy-to-development:
+      if: ${{ github.ref == 'refs/heads/development' }}
+      uses: paper-indonesia/paper-devops/.github/workflows/deployToDevelopment.yml@master
+      secrets: inherit
+
+    deploy-to-staging:
+      if: ${{ github.ref == 'refs/heads/staging' }}
+      uses: paper-indonesia/paper-devops/.github/workflows/deployToStaging.yml@master
+      secrets: inherit
+
+    deploy-to-sandbox:
+      if: ${{ github.ref == 'refs/heads/master' }}
+      uses: paper-indonesia/paper-devops/.github/workflows/deployToSandbox.yml@master
+      secrets: inherit
