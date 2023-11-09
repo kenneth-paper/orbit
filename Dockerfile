@@ -46,8 +46,8 @@ RUN --mount=type=cache,target=/root/.npm,rw npm config set unsafe-perm true && \
     npm install -g --unsafe-perm --allow-root && \
     npm install --unsafe-perm --allow-root && \
     npm install -g pm2 && \
-    npm run build && \
-    npm run typeorm:run
+    npm run build
+
 # Declare another Args Docker build
 ARG APP_ENV
 ENV APP_ENV ${APP_ENV} ${NODE_ENV}
